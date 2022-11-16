@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -10,9 +7,14 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(39, 39, 39, 1),
-      body: Column(
-        children: const [TitleWidget(), FormWidget()],
-      ),
+      body: SingleChildScrollView(
+          child: Column(
+        children: const [
+          TitleWidget(),
+          FormWidget(),
+          RegistrationConfirmButton()
+        ],
+      )),
     );
   }
 }
@@ -58,26 +60,130 @@ class FormWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.white),
-                borderRadius: BorderRadius.circular(8),
-                color: const Color.fromRGBO(70, 70, 70, 1)),
-            child: const TextField(
-                decoration: InputDecoration(
-              icon: Padding(
-                padding: EdgeInsets.only(left: 10),
-                child: Icon(Icons.person_outline, color: Colors.grey),
-              ),
-              hintText: "Nome Completo",
-              hintStyle: TextStyle(color: Colors.grey),
-            )),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Column(children: [
+          UserFormInput(
+            iconData: Icons.person_outline,
+            hintText: 'Nome Completo',
           ),
-        ],
-      ),
+          UserFormInput(
+            iconData: Icons.mail_outline,
+            hintText: 'Digite seu e-mail',
+          ),
+          UserFormInput(
+            hintText: '(00) 9 1234-5678',
+          ),
+          UserPasswordInput(
+            hintText: 'Digite sua senha',
+          ),
+          UserPasswordInput(
+            hintText: 'Confirme sua senha',
+          ),
+        ]));
+  }
+}
+
+class UserFormInput extends StatelessWidget {
+  UserFormInput({
+    super.key,
+    this.iconData,
+    required this.hintText,
+  });
+
+  late IconData? iconData;
+  final String hintText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.white),
+              borderRadius: BorderRadius.circular(8),
+              color: const Color.fromRGBO(70, 70, 70, 1)),
+          child: TextField(
+              decoration: InputDecoration(
+            border: InputBorder.none,
+            icon: iconData != null
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Icon(iconData, color: Colors.grey),
+                  )
+                : const Padding(padding: EdgeInsets.zero),
+            hintText: hintText,
+            hintStyle: const TextStyle(color: Colors.grey),
+          )),
+        ));
+  }
+}
+
+// ignore: must_be_immutable
+class UserPasswordInput extends StatefulWidget {
+  UserPasswordInput({super.key, this.iconData, required this.hintText});
+
+  late IconData? iconData;
+  final String hintText;
+
+  @override
+  State<UserPasswordInput> createState() => _UserPasswordInputState();
+}
+
+class _UserPasswordInputState extends State<UserPasswordInput> {
+  late bool isObscure = true;
+
+  void _togglePasswordView() {
+    setState(() {
+      isObscure = !isObscure;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.white),
+              borderRadius: BorderRadius.circular(8),
+              color: const Color.fromRGBO(70, 70, 70, 1)),
+          child: TextField(
+              obscureText: isObscure,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                icon: widget.iconData != null
+                    ? Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Icon(widget.iconData, color: Colors.grey),
+                      )
+                    : const Padding(padding: EdgeInsets.zero),
+                suffixIcon: IconButton(
+                    onPressed: () => _togglePasswordView(),
+                    icon: Icon(
+                      isObscure
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                      color: Colors.grey,
+                    )),
+                hintText: widget.hintText,
+                hintStyle: const TextStyle(color: Colors.grey),
+              )),
+        ));
+  }
+}
+
+class RegistrationConfirmButton extends StatelessWidget {
+  const RegistrationConfirmButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {},
+      style: ElevatedButton.styleFrom(
+          backgroundColor: const Color.fromRGBO(39, 39, 39, 1),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+      child: const Text('Send'),
     );
   }
 }
