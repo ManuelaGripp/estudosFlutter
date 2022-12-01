@@ -1,16 +1,17 @@
 import 'package:devagram/Util/ScreenConverter.dart';
-import 'package:devagram/View/RegistrarView.dart';
 
 import '../Components/CustumTextField.dart';
 import '../Constant/colors.dart';
 import 'package:flutter/material.dart';
 
-class LoginView extends StatefulWidget {
+import 'LoginView.dart';
+
+class RegistrarView extends StatefulWidget {
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<RegistrarView> createState() => _RegistrarView();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _RegistrarView extends State<RegistrarView> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -24,15 +25,34 @@ class _LoginViewState extends State<LoginView> {
         children: [
           Padding(
               padding: EdgeInsets.only(
-                  left: convertWidth(32, size.width),
-                  top: convertHeight(133, size.height),
+                  left: convertWidth(120, size.width),
+                  top: convertHeight(60, size.height),
                   bottom: 0,
-                  right: convertWidth(32, size.width)),
-              child: Image.asset('assets/images/logo.png')),
+                  right: convertWidth(120, size.width)),
+              child: SizedBox(
+                  child: Stack(children: [
+                Image.asset('assets/images/avatar.png'),
+                Positioned(
+                  top: convertHeight(62, size.height),
+                  left: convertWidth(70, size.width),
+                  child: Image.asset('assets/icons/camera.png'),
+                )
+              ]))),
           Padding(
             padding: EdgeInsets.only(
                 left: convertWidth(32, size.width),
-                top: convertHeight(56, size.height),
+                top: convertHeight(48, size.height),
+                bottom: 0,
+                right: convertWidth(32, size.width)),
+            child: const CustumTextField(
+              hintText: "Nome Completo",
+              iconPath: "assets/icons/user.png",
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+                left: convertWidth(32, size.width),
+                top: convertHeight(24, size.height),
                 bottom: 0,
                 right: convertWidth(32, size.width)),
             child: const CustumTextField(
@@ -55,6 +75,18 @@ class _LoginViewState extends State<LoginView> {
           Padding(
             padding: EdgeInsets.only(
                 left: convertWidth(32, size.width),
+                top: convertHeight(24, size.height),
+                bottom: 0,
+                right: convertWidth(32, size.width)),
+            child: const CustumTextField(
+              obscureText: true,
+              hintText: "Confirmar Senha",
+              iconPath: "assets/icons/key.png",
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+                left: convertWidth(32, size.width),
                 top: convertHeight(40, size.height),
                 bottom: 0,
                 right: convertWidth(32, size.width)),
@@ -68,7 +100,7 @@ class _LoginViewState extends State<LoginView> {
                 backgroundColor: primaryColor,
                 minimumSize: Size(size.width, convertHeight(48, size.height)),
               ),
-              child: const Text('Login'),
+              child: const Text('Cadastrar'),
             ),
           ),
           Padding(
@@ -78,7 +110,7 @@ class _LoginViewState extends State<LoginView> {
                 bottom: 0,
                 right: 0),
             child: const Text(
-              "Não possui uma conta?",
+              "Já possui uma conta?",
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -95,9 +127,9 @@ class _LoginViewState extends State<LoginView> {
             child: InkWell(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => RegistrarView()));
+                    MaterialPageRoute(builder: (context) => LoginView()));
               },
-              child: const Text("Faça seu cadastro agora!",
+              child: const Text("Faça seu login agora!",
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
